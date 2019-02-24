@@ -1,6 +1,6 @@
 {
   "name": "selfdestruct-detect",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Detect the possibility of a self-destruction happening during the execution of an Ethereum smart contract by determining whether the runtime bytecode ran by the Ethereum Virtual Machine contains a possibly reachable SELFDESTRUCT instruction",
   "main": "lib/SelfdestructDetect.node.js",
   "module": "lib/SelfdestructDetect.js",
