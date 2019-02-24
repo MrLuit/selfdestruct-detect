@@ -4,13 +4,32 @@ const solc = require("solc");
 export default class Contract {
     private output: any;
 
-    constructor(filename: string) {
+    loadFile(filename: string) {
         const source = fs.readFileSync("./tests/contracts/" + filename, "utf8");
         const input = {
             language: 'Solidity',
             sources: {
                 [filename]: {
                     content: source
+                }
+            },
+            settings: {
+                outputSelection: {
+                    '*': {
+                        '*': [ '*' ]
+                    }
+                }
+            }
+        }
+        this.output = JSON.parse(solc.compile(JSON.stringify(input)));
+    }
+
+    load(name: string, content: string) {
+        const input = {
+            language: 'Solidity',
+            sources: {
+                [name]: {
+                    content: content
                 }
             },
             settings: {
@@ -41,13 +60,13 @@ export default class Contract {
         return bytecode;
     }
 
-    hash(): string | false {
+    hash(): string {
         const regex = /a165627a7a72305820([a-f0-9]{64})0029$/;
         const match = this.bytecode().match(regex);
         if (match && match[1]) {
-            return 'bzzr://' + match[1];
+            return match[1];
         } else {
-            return false;
+            return '';
         }
     }
 }

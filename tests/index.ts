@@ -1,11 +1,13 @@
 import 'mocha';
 import { expect } from 'chai';
 import { mightSelfdestruct } from '../src';
+import generateFFMetadataContract from './utils/generateFFMetadata';
 import Contract from './utils/contract.class';
 
 describe('Contracts', () => {
     describe('hello_world.sol', () => {
-        const contract = new Contract("hello_world.sol");
+        const contract = new Contract();
+        contract.loadFile("hello_world.sol");
 
         it('should compile without errors', () => {
             expect(contract.valid(), contract.errors().join("\n")).to.be.true;
@@ -17,7 +19,8 @@ describe('Contracts', () => {
     });
 
     describe('selfdestruct.sol', () => {
-        const contract = new Contract("selfdestruct.sol");
+        const contract = new Contract();
+        contract.loadFile("selfdestruct.sol");
 
         it('should compile without errors', () => {
             expect(contract.valid(), contract.errors().join("\n")).to.be.true;
@@ -29,7 +32,7 @@ describe('Contracts', () => {
     });
 
     describe('metadata.sol', () => {
-        const contract = new Contract("metadata.sol");
+        const contract = generateFFMetadataContract();
 
         it('should compile without errors', () => {
             expect(contract.valid(), contract.errors().join("\n")).to.be.true;
