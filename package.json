@@ -1,0 +1,82 @@
+{
+  "name": "selfdestruct-detect",
+  "version": "1.0.0",
+  "description": "Detect the possibility of a self-destruction happening during the execution of an Ethereum smart contract by determining whether the runtime bytecode ran by the Ethereum Virtual Machine contains a possibly reachable SELFDESTRUCT instruction",
+  "main": "lib/SelfdestructDetect.node.js",
+  "module": "lib/SelfdestructDetect.js",
+  "typings": "typings/src/index.d.ts",
+  "scripts": {
+    "tscheck": "tsc --noEmit --project tsconfig.json",
+    "tslint": "tslint --project .",
+    "test": "mocha -r ts-node/register ./tests/index.ts",
+    "prepublishOnly": "npm run clean && npm run build:prod",
+    "clean": "rimraf ./lib",
+    "build": "webpack",
+    "build:prod": "cross-env NODE_ENV=production npm run build",
+    "prettier:diff": "prettier --write --config ./.prettierrc --list-different 'src/**/*.ts'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MrLuit/selfdestruct-detect.git"
+  },
+  "author": "Luit",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MrLuit/selfdestruct-detect/issues"
+  },
+  "homepage": "https://github.com/MrLuit/selfdestruct-detect#readme",
+  "keywords": [
+    "ethereum",
+    "evm",
+    "utils",
+    "selfdestruct",
+    "create2",
+    "typescript",
+    "bytecode",
+    "solidity"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "7.2.2",
+    "@babel/preset-env": "7.2.3",
+    "@types/chai": "4.1.7",
+    "@types/mocha": "5.2.5",
+    "@types/node": "10.12.18",
+    "@types/webpack": "4.4.22",
+    "@types/webpack-merge": "4.1.3",
+    "@types/webpack-node-externals": "1.6.3",
+    "awesome-typescript-loader": "5.2.1",
+    "chai": "4.2.0",
+    "cross-env": "5.2.0",
+    "husky": "1.3.1",
+    "lint-staged": "8.1.0",
+    "mocha": "5.2.0",
+    "prettier": "1.15.3",
+    "rimraf": "2.6.2",
+    "solc": "0.5.4",
+    "ts-node": "7.0.1",
+    "tslint": "5.12.0",
+    "tslint-config-prettier": "1.17.0",
+    "tslint-microsoft-contrib": "6.0.0",
+    "tslint-no-unused-expression-chai": "0.1.4",
+    "typescript": "3.2.2",
+    "webpack": "4.28.3",
+    "webpack-cli": "3.1.2",
+    "webpack-merge": "4.1.5",
+    "webpack-node-externals": "1.7.2"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "prettier --write --config ./.prettierrc --config-precedence file-override",
+      "tslint --project .",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "post-commit": "git update-index --again",
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run tslint && npm run tscheck && npm run test"
+    }
+  }
+}
