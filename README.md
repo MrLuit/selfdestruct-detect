@@ -29,21 +29,31 @@ Read more: [Potential security implications of CREATE2? (EIP-1014)](https://ethe
 ```javascript
 const { mightSelfdestruct } = require("selfdestruct-detect");
 const Web3 = require('web3');
-const web3 = new Web3("https://api.mycryptoapi.com/eth");
+const web3 = new Web3(new Web3.providers.HttpProvider("https://api.mycryptoapi.com/eth"));
+const CryptoKitties = "0x06012c8cf97BEaD5deAe237070F9587f8E7A266d";
 
-web3.eth.getCode("0x06012c8cf97BEaD5deAe237070F9587f8E7A266d").then(code => {
-    console.log(mightSelfdestruct(code));
+web3.eth.getCode(CryptoKitties).then(code => {
+    if(mightSelfdestruct(code)) {
+        console.log("Warning: CryptoKitties contract possibly contains a self-destruct method!");
+    } else {
+        console.log("Success: CryptoKitties contract does not contain a reachable self-destruct instruction.");
+    }
 });
 ```
 
 #### Browser
 ```javascript
-const { mightSelfdestruct } = window.SelfdestructDetector;
-const web3 = new Web3(window.web3.currentProvider);
+const { mightSelfdestruct } = window.SelfdestructDetect;
+const web3 = new Web3(new Web3.providers.HttpProvider("https://api.mycryptoapi.com/eth"));
+const DAI = "0x89d24A6b4CcB1B6fAA2625fE562bDD9a23260359";
 
-web3.eth.getCode("0x89d24A6b4CcB1B6fAA2625fE562bDD9a23260359", function(err, code) {
+web3.eth.getCode(DAI, function(err, code) {
     if(err) throw err;
-    console.log(mightSelfdestruct(code));
+    if(mightSelfdestruct(code)) {
+        console.log("Warning: DAI contract possibly contains a self-destruct method!");
+    } else {
+        console.log("Success: DAI contract does not contain a reachable self-destruct instruction.");
+    }
 });
 ```
 
